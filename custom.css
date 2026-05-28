@@ -1,0 +1,93 @@
+/* 1. Global Reset: Set a unified white canvas & eradicate all default shadows */
+:root {
+    --jp-layout-color0: #ffffff !important;
+    --jp-layout-color1: #ffffff !important;
+    --jp-layout-color2: #ffffff !important;
+    --jp-layout-color3: #ffffff !important;
+    --jp-cell-editor-background: #ffffff !important;
+    --jp-border-color0: transparent !important;
+    --jp-border-color1: transparent !important;
+    --jp-border-color2: transparent !important;
+    --jp-border-color3: transparent !important;
+}
+
+html, body,
+#main-panel,
+#jp-main-dock-panel,
+#jp-main-content-panel,
+.jp-NotebookPanel,
+.jp-Notebook,
+.jp-MainAreaWidget,
+.jp-WindowedPanel-outer,
+.jp-WindowedPanel-inner,
+.lm-Widget,
+.notebook-container,
+[class*="jp-"],
+[id*="jp-"],
+[class*="lm-"] {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* 2. Interface Hiding: Destroy headers, toolbars, and legacy menus */
+#top-panel-wrapper,
+#header-panel,
+#jp-top-panel,
+.jp-TopPanel,
+#menu-panel-wrapper,
+.jp-MainMenu,
+#jp-MainMenu,
+.jp-NotebookPanel-toolbar,
+.jp-Toolbar {
+    display: none !important;
+    height: 0px !important;
+}
+
+/* Pull workspace up to fill the void left by hidden elements */
+#jp-main-content-panel,
+.jp-MainAreaWidget,
+#main-panel {
+    top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* 3. Code Cells: Crisp, flat borders with zero drop shadows */
+.jp-Cell {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important; /* Clean modern slate border frame */
+    border-radius: 12px !important;        /* Modern rounded corners */
+    margin-bottom: 24px !important;
+    box-shadow: none !important;           /* Flat appearance strictly enforced */
+    transition: border-color 0.2s ease !important;
+}
+
+/* Subtly darken cell border on cursor hover */
+.jp-Cell:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+
+/* Highlight current active cell with flat blue accent */
+.jp-Cell.jp-mod-active {
+    border-color: #3b82f6 !important;
+    box-shadow: none !important;
+}
+
+/* 4. Text Editor & Outputs: Keep inputs clean and map flat divider line */
+.jp-InputArea,
+.jp-InputArea-editor,
+.cm-editor,
+.cm-gutters {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.jp-Cell-outputWrapper {
+    border-top: none !important; /* Flat separator line */
+    background: transparent !important;
+    box-shadow: none !important;
+}
