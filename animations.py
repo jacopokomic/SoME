@@ -52,9 +52,11 @@ def display(result):
         rel_path = video_path
 
     IPython.display.display(IPython.display.HTML(f"""
-    <video width="800" autoplay>
-        <source src="{rel_path}" type="video/mp4">
-    </video>
+    <div style="display: flex; justify-content: center; width: 100%;">
+        <video width="800" autoplay style="border-radius: 8px;">
+            <source src="{rel_path}" type="video/mp4">
+        </video>
+    </div>
     """))
 
 def generate():
