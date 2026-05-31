@@ -1,93 +1,195 @@
-/* 1. Global Reset: Set a unified white canvas & eradicate all default shadows */
 :root {
-    --jp-layout-color0: #ffffff !important;
-    --jp-layout-color1: #ffffff !important;
-    --jp-layout-color2: #ffffff !important;
-    --jp-layout-color3: #ffffff !important;
-    --jp-cell-editor-background: #ffffff !important;
-    --jp-border-color0: transparent !important;
-    --jp-border-color1: transparent !important;
-    --jp-border-color2: transparent !important;
-    --jp-border-color3: transparent !important;
+    --bg: radial-gradient(
+        circle at 20% 10%,
+        #f8fafc 0%,
+        #eef2ff 35%,
+        #e0f2fe 70%,
+        #f8fafc 100%
+    );                         /* Clean, modern slate tint */
+    --cell: #ffffff;         /* Pure white cards */
+    --text: #0f172a;         /* Deep slate for high-contrast reading */
+    --muted: #64748b;        /* Perfect secondary text */
+    --border: #e2e8f0;       /* Razor-thin, subtle dividers */
+    --accent: #3b82f6;       /* Vibrant developer blue */
+    --radius: 20px;            /* Snappy, modern corner rounding */
+    --glass: rgb(255, 255, 255);
+    --glass-border: rgba(255, 255, 255, 0.35);
+    --glass-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
+/* Base Workspace Layout */
 html, body,
-#main-panel,
-#jp-main-dock-panel,
-#jp-main-content-panel,
-.jp-NotebookPanel,
-.jp-Notebook,
-.jp-MainAreaWidget,
-.jp-WindowedPanel-outer,
-.jp-WindowedPanel-inner,
-.lm-Widget,
-.notebook-container,
-[class*="jp-"],
-[id*="jp-"],
-[class*="lm-"] {
-    background: #ffffff !important;
-    background-color: #ffffff !important;
+[class*="jp-"], [id*="jp-"], [class*="lm-"] {
+    background: transparent !important;
     box-shadow: none !important;
     border: none !important;
 }
 
-/* 2. Interface Hiding: Destroy headers, toolbars, and legacy menus */
-#top-panel-wrapper,
-#header-panel,
-#jp-top-panel,
-.jp-TopPanel,
-#menu-panel-wrapper,
-.jp-MainMenu,
-#jp-MainMenu,
-.jp-NotebookPanel-toolbar,
-.jp-Toolbar {
-    display: none !important;
-    height: 0px !important;
+/* Ensure the background stretches all the way down */
+html {
+    background: var(--bg) !important;
+    min-height: 100vh !important; 
 }
 
-/* Pull workspace up to fill the void left by hidden elements */
-#jp-main-content-panel,
-.jp-MainAreaWidget,
-#main-panel {
+body, #main-panel {
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    font-family: "Inter", system-ui, -apple-system, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh !important; 
+}
+
+/* Modern Layout Constraints */
+#jp-main-content-panel, .jp-MainAreaWidget, #main-panel {
     top: 0 !important;
     margin-top: 0 !important;
 }
 
-/* 3. Code Cells: Crisp, flat borders with zero drop shadows */
+/* Hide Distracting UI Baggage */
+#top-panel-wrapper, #header-panel, #jp-top-panel, .jp-TopPanel,
+#menu-panel-wrapper, .jp-MainMenu, #jp-MainMenu,
+.jp-NotebookPanel-toolbar, .jp-Toolbar {
+    display: none !important;
+    height: 0px !important;
+}
+
+/* --- TYPOGRAPHY ENGINE --- */
+
+/* Prose: Clean, readable Sans-Serif */
+.jp-RenderedMarkdown {
+    font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace !important;
+    line-height: 1.75 !important;
+    font-size: 14px !important;
+    color: var(--text) !important;
+}
+
+.jp-RenderedMarkdown h1 { font-size: 2rem !important; font-weight: 800 !important; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.jp-RenderedMarkdown h2 { font-size: 1.5rem !important; font-weight: 700 !important; letter-spacing: -0.01em; }
+.jp-RenderedMarkdown h3 { font-size: 1.25rem !important; font-weight: 600 !important; }
+
+/* Code Blocks: Sharp Monospace */
+.cm-editor, .cm-scroller, 
+.jp-RenderedMarkdown pre, 
+.jp-RenderedMarkdown code,
+.jp-OutputArea-output pre {
+    font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace !important;
+    font-size: 14px !important;
+}
+
+.cm-editor {
+    background: rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 8px;
+}
+
+.jp-mod-active .cm-editor {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+/* Markdown Element Styling */
+.jp-RenderedHTMLCommon p { margin: 0.75rem 0 !important; }
+.jp-RenderedHTMLCommon ul, .jp-RenderedHTMLCommon ol { padding-left: 1.25rem !important; }
+.jp-RenderedHTMLCommon blockquote {
+    border-left: 4px solid var(--border) !important;
+    padding-left: 1rem !important;
+    color: var(--muted) !important;
+    font-style: italic;
+}
+
+/* --- THE CELL CARDS --- */
+
 .jp-Cell {
-    background: #ffffff !important;
-    border: 1px solid #cbd5e1 !important; /* Clean modern slate border frame */
-    border-radius: 12px !important;        /* Modern rounded corners */
-    margin-bottom: 24px !important;
-    box-shadow: none !important;           /* Flat appearance strictly enforced */
-    transition: border-color 0.2s ease !important;
+    background: var(--glass) !important;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius) !important;
+
+    box-shadow: var(--glass-shadow) !important;
+
+    margin-bottom: 16px !important;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    transform-origin: center;
 }
 
-/* Subtly darken cell border on cursor hover */
+.jp-Cell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.6),
+        transparent 40%
+    );
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 .jp-Cell:hover {
-    border-color: #94a3b8 !important;
-    box-shadow: none !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.12),
+        0 2px 10px rgba(15, 23, 42, 0.06) !important;
 }
 
-/* Highlight current active cell with flat blue accent */
+/* Active Focus State */
 .jp-Cell.jp-mod-active {
-    border-color: #3b82f6 !important;
-    box-shadow: none !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 12px 30px -8px rgba(59, 130, 246, 0.12) !important;
 }
 
-/* 4. Text Editor & Outputs: Keep inputs clean and map flat divider line */
-.jp-InputArea,
-.jp-InputArea-editor,
-.cm-editor,
-.cm-gutters {
+/* Clean Input/Output Structure */
+.jp-InputArea, .jp-InputArea-editor, .cm-editor, .cm-gutters {
     background: transparent !important;
-    background-color: transparent !important;
     border: none !important;
-    box-shadow: none !important;
 }
 
-.jp-Cell-outputWrapper {
-    border-top: none !important; /* Flat separator line */
-    background: transparent !important;
-    box-shadow: none !important;
+/* --- MINIMALIST DETAILS --- */
+
+/* Ghost Execution Prompts (In/Out numbers) */
+.jp-InputPrompt, .jp-OutputPrompt {
+    font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace !important;
+    opacity: 0.15;
+    font-size: 11px !important;
+    transition: opacity 0.2s ease;
+}
+.jp-Cell:hover .jp-InputPrompt,
+.jp-Cell.jp-mod-active .jp-InputPrompt {
+    opacity: 0.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Miscellaneous refinements */
+html { scroll-behavior: smooth; }
+::selection { background: rgba(59, 130, 246, 0.15); }
+
+/* Sometimes the header still occupies space invisibly */
+.jp-NotebookPanel-toolbar {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+}
+
+.jp-InputPrompt, .jp-OutputPrompt {
+    color: rgba(100, 116, 139, 0.5);
+    letter-spacing: 0.02em;
 }
