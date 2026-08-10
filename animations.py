@@ -47,13 +47,13 @@ def display(result):
         return
 
     try:
-        rel_path = video_path.relative_to(pathlib.Path.cwd()).as_posix()
+        rel_path = video_path.relative_to(pathlib.Path.cwd())
     except Exception:
-        rel_path = video_path.as_posix()
+        rel_path = video_path
 
     IPython.display.display(IPython.display.HTML(f"""
     <div style="display: flex; justify-content: center; width: 100%;">
-        <video width="800" autoplay muted playsinline style="border-radius: 8px; max-width: 100%;">
+        <video width="800" autoplay style="border-radius: 8px;">
             <source src="{rel_path}" type="video/mp4">
         </video>
     </div>
