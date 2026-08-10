@@ -1,3 +1,4 @@
+/* NN-CSS v10 - stripped to original + hide-only rules */
 :root {
     --bg: radial-gradient(
         circle at 20% 10%,
@@ -23,6 +24,7 @@ html, body,
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
+    outline: none !important;
 }
 
 /* Ensure the background stretches all the way down */
@@ -47,8 +49,7 @@ body, #main-panel {
 
 /* Hide Distracting UI Baggage */
 #top-panel-wrapper, #header-panel, #jp-top-panel, .jp-TopPanel,
-#menu-panel-wrapper, .jp-MainMenu, #jp-MainMenu,
-.jp-NotebookPanel-toolbar, .jp-Toolbar {
+#menu-panel-wrapper, .jp-MainMenu, #jp-MainMenu {
     display: none !important;
     height: 0px !important;
 }
@@ -177,18 +178,49 @@ body, #main-panel {
     background: #94a3b8;
 }
 
+/* Per-cell floating toolbar (copy/move/delete icons): hide it - it paints
+   a white pill over content and lets visitors delete cells */
+.jp-cell-toolbar {
+    display: none !important;
+}
+
 /* Miscellaneous refinements */
 html { scroll-behavior: smooth; }
 ::selection { background: rgba(59, 130, 246, 0.15); }
 
-/* Sometimes the header still occupies space invisibly */
-.jp-NotebookPanel-toolbar {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-}
-
 .jp-InputPrompt, .jp-OutputPrompt {
     color: rgba(100, 116, 139, 0.5);
     letter-spacing: 0.02em;
+}
+
+/* --- VISITOR CHROME ------------------------------------------------------
+   The full top chrome (logo bar, menu bar, toolbar) sits in a fixed glass
+   stack that stays invisible until the mouse reaches the top of the page. */
+
+#top-panel-wrapper, #menu-panel-wrapper, .jp-NotebookPanel-toolbar {
+    display: none !important;
+    height: 0 !important;
+}
+
+/* Dead widget placeholders (e.g. "VBox(children=...)" left over from a
+   previous session) render as plain text - hide them. */
+.jp-RenderedText[data-mime-type="text/plain"] {
+    display: none !important;
+}
+
+/* Widget outputs saved from a previous session ("Error displaying widget:
+   model not found") - show nothing until the cell is actually run. */
+.jp-OutputArea-output[data-mime-type="application/vnd.jupyter.widget-view+json"]:not(:has(.jupyter-widgets)) {
+    display: none !important;
+}
+
+/* Remaining chrome slivers: notebook footer ("add cell" strip), bottom
+   panel, and any horizontal scrollbar on the notebook scroller. */
+.jp-Notebook-footer,
+#bottom-panel, #jp-bottom-panel {
+    display: none !important;
+    height: 0 !important;
+}
+.jp-WindowedPanel-outer {
+    overflow-x: hidden !important;
 }
