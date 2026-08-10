@@ -1,3 +1,6 @@
+/* Computer Modern (the LaTeX font) for the prose - matches the animations */
+@import url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.2/cmu-serif.css");
+
 :root {
     --bg: radial-gradient(
         circle at 20% 10%,
@@ -56,9 +59,9 @@ body, #main-panel {
 /* --- TYPOGRAPHY ENGINE --- */
 
 .jp-RenderedMarkdown {
-    font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace !important;
+    font-family: "CMU Serif", "Times New Roman", Times, serif !important;
     line-height: 1.75 !important;
-    font-size: 14px !important;
+    font-size: 17px !important;
     color: var(--text) !important;
 }
 
