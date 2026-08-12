@@ -6,26 +6,22 @@ import IPython
 rendered_videos = {}
 
 def load_existing():
-    """
-    Map each code cell of the notebook to its video by hashing the cell's
-    source. This way the right animation plays regardless of the order in
-    which the cells are executed; an edited cell simply shows no video.
-    """
     rendered_videos.clear()
 
-    try:
-        with open("NN.ipynb", encoding = "utf-8") as f:
-            notebook = json.load(f)
-    except Exception:
-        return
+    for notebook_path in [pathlib.Path("neural-network-self-portrait.ipynb")]:
+        try:
+            with open(notebook_path, encoding = "utf-8") as f:
+                notebook = json.load(f)
+        except Exception:
+            continue
 
-    code_cells = [c for c in notebook["cells"] if c["cell_type"] == "code"]
-    for i, cell in enumerate(code_cells):
-        source = "".join(cell["source"]).strip()
-        video_path = pathlib.Path("media")/f"Cell{i - 1}.mp4"
-        if source and video_path.exists():
-            key = hashlib.sha1(source.encode()).hexdigest()
-            rendered_videos[key] = video_path.resolve()
+        code_cells = [c for c in notebook["cells"] if c["cell_type"] == "code"]
+        for i, cell in enumerate(code_cells):
+            source = "".join(cell["source"]).strip()
+            video_path = pathlib.Path("media")/f"Cell{i - 1}.mp4"
+            if source and video_path.exists():
+                key = hashlib.sha1(source.encode()).hexdigest()
+                rendered_videos[key] = video_path.resolve()
 
 def display(result):
     source = getattr(getattr(result, "info", None), "raw_cell", None)
